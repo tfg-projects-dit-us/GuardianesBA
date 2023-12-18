@@ -1,0 +1,14 @@
+[
+  [
+    "name" : "GenerarPlanificacion", 
+    "parameters" : [ 
+        "IdCalendarioFestivos" : new StringDataType(), 
+        "DataBase" : new StringDataType()
+    ], 
+    "results" : [ 
+        "IdPlanificacionProvisional" : new StringDataType()
+    ], 
+    "displayName" : "Generar Planificación", 
+    "icon" : "GenerarPlanificacion.png" 
+  ]
+]

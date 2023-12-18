@@ -1,0 +1,14 @@
+[
+  [
+    "name" : "InformarMedicos", 
+    "parameters" : [ 
+        "idPlanificacionValida" : new StringDataType(), 
+        "idDatabase" : new StringDataType() 
+    ], 
+    "results" : [ 
+       "procesoFinalizado" : new StringDataType()
+    ], 
+    "displayName" : "Informar Medicos", 
+    "icon" : "InformarMedicos.png" 
+  ]
+]
