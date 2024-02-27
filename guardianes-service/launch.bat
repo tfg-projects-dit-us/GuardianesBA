@@ -49,6 +49,7 @@ goto :startapp
 		cd target
 		for /f "delims=" %%x in ('dir /od /b *.jar') do set latestjar=%%x
 		cd ..
-		call java -Dorg.kie.server.bypass.auth.user=true -Dorg.kie.server.pwd=guardianes -Dorg.kie.server.user=guardianes -jar target\!latestjar!
+		rem call java -Dorg.kie.server.bypass.auth.user=true -Dorg.kie.server.pwd=guardianes -Dorg.kie.server.user=guardianes -jar target\!latestjar!
+		call java -jar target\!latestjar!
 	)
 :end

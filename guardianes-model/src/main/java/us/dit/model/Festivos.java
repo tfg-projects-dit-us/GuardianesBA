@@ -1,22 +1,23 @@
 package us.dit.model;
 
 import java.util.Arrays;
+import java.util.List;
 
-public class FestivosRequest {
-    private String[] festivos;
+public class Festivos {
+    private List<String> festivos;
 
-    public String[] getFestivos() {
+    public List<String> getFestivos() {
         return festivos;
     }
 
-    public void setFestivos(String[] festivos) {
+    public void setFestivos(List<String> festivos) {
         this.festivos = festivos;
     }
 
     @Override
     public String toString() {
         return "FestivosRequest{" +
-                "festivos=" + Arrays.toString(festivos) +
+                "festivos=" + this.getFestivos() +
                 '}';
     }
 }

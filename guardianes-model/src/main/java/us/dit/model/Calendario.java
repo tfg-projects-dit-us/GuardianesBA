@@ -1,6 +1,7 @@
 package us.dit.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -9,13 +10,13 @@ import org.apache.logging.log4j.Logger;
 
 
 @Entity
-public class Calendario {
+public class Calendario implements Serializable {
 	private static final Logger logger = LogManager.getLogger();
 
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long idCalendario;
+	private Integer idCalendario;
 
 	@ElementCollection
 	private Set<LocalDate> festivos;
@@ -44,7 +45,7 @@ public class Calendario {
 
 	public void setFestivos(Set<LocalDate> festivos) { this.festivos = festivos;}
 
-	public Long getIdCalendario() {
+	public Integer getIdCalendario() {
 		return idCalendario;
 	}
 
