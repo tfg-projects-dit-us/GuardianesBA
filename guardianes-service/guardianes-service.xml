@@ -37,6 +37,11 @@
         <value>guardianes</value>
         <type>java.lang.String</type>
       </config-item>
+      <config-item>
+        <name>org.kie.server.timeout</name>
+        <value>48000</value>
+        <type>java.lang.String</type>
+      </config-item>
     </configItems>
   </configuration>
   <containers>
