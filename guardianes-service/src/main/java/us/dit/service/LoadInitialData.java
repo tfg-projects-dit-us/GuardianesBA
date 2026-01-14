@@ -38,6 +38,7 @@ import java.util.*;
 @Configuration
 @Slf4j
 public class LoadInitialData {
+	
     @Autowired
     private DoctorRepository doctorRepository;
     @Autowired
@@ -54,6 +55,7 @@ public class LoadInitialData {
 
     @Bean
     CommandLineRunner preloadInitialData() {
+        log.info("Entro en preload");
         return args -> {
 
             if (this.doctorRepository.findAll().isEmpty()

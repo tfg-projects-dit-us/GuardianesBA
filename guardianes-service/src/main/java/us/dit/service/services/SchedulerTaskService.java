@@ -23,12 +23,14 @@ import org.kie.server.api.model.instance.TaskSummary;
 import org.kie.server.client.UserTaskServicesClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import us.dit.service.model.ScheduleView;
 import us.dit.service.model.entities.Schedule;
 import us.dit.service.model.entities.ScheduleDay;
 import us.dit.service.model.entities.primarykeys.CalendarPK;
 import us.dit.service.model.repositories.ScheduleRepository;
+import org.springframework.transaction.annotation.Transactional; // IMPORTANTE
 
 import javax.servlet.http.HttpSession;
 import java.time.DayOfWeek;
@@ -42,7 +44,9 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @date Julio 2024
  */
+@Lazy
 @Service
+@Transactional
 public class SchedulerTaskService {
 
     private static final Logger logger = LogManager.getLogger();
@@ -130,9 +134,28 @@ public class SchedulerTaskService {
         return idPlanificacionProvisional.split("-");
     }
 
+    @Transactional
     public Optional<Schedule> obtainSchedule(YearMonth yearMonth) {
-        CalendarPK calendarPK = new CalendarPK(yearMonth.getMonthValue(), yearMonth.getYear());
-        return this.scheduleRepository.findById(calendarPK);
+        // CalendarPK calendarPK = new CalendarPK(yearMonth.getMonthValue(), yearMonth.getYear());
+        // return this.scheduleRepository.findById(calendarPK);
+        Integer m = yearMonth.getMonthValue();
+        Integer y = yearMonth.getYear();
+
+        // 1. Traemos el objeto principal con los días
+        Optional<Schedule> scheduleOpt = this.scheduleRepository.findByIdWithDays(m, y);
+
+        if (scheduleOpt.isPresent()) {
+            // 2. Llamamos a las consultas auxiliares.
+            // Al estar dentro de una transacción (@Transactional), Hibernate es lo suficientemente
+            // inteligente para detectar que el objeto ya está en memoria (First Level Cache)
+            // y simplemente rellena las listas correspondientes en el objeto existente.
+            
+            scheduleRepository.fetchShifts(m, y);       // Carga la lista 'shifts'
+            scheduleRepository.fetchCycle(m, y);        // Carga la lista 'cycle'
+            scheduleRepository.fetchConsultations(m, y);// Carga la lista 'consultations'
+        }
+
+        return scheduleOpt;
     }
 
     public ScheduleView setView(Schedule schedule, YearMonth yearMonth) {
